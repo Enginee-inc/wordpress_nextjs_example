@@ -10,6 +10,14 @@ interface Props {
 
 export async function generateStaticParams() {
   const posts = await getPosts()
+  
+  // If no posts are fetched (e.g., API is unavailable), return at least one path
+  // to satisfy Next.js static export requirements
+  if (posts.length === 0) {
+    console.warn('No posts fetched. Returning fallback paths.')
+    return [{ slug: 'example-post' }]
+  }
+  
   return posts.map((post) => ({
     slug: post.slug,
   }))
