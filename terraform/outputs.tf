@@ -1,20 +1,30 @@
 output "wordpress_url" {
-  description = "WordPress App Service URL"
-  value       = "https://${azurerm_linux_web_app.wordpress.default_hostname}"
+  description = "WordPress site URL"
+  value       = "https://${azurerm_linux_web_app.wordpress_web_app.default_hostname}"
 }
 
-output "nextjs_url" {
-  description = "Next.js Static Web App URL"
-  value       = "https://${azurerm_static_web_app.nextjs.default_host_name}"
+output "wordpress_api_url" {
+  description = "WordPress REST API URL"
+  value       = "https://${azurerm_linux_web_app.wordpress_web_app.default_hostname}/wp-json"
 }
 
-output "mysql_server_fqdn" {
-  description = "MySQL server FQDN"
-  value       = azurerm_mysql_flexible_server.main.fqdn
+output "static_web_app_url" {
+  description = "Static Web App URL"
+  value       = "https://${module.static_web_app.default_hostname}"
 }
 
 output "static_web_app_api_key" {
-  description = "Static Web App API key for deployment"
-  value       = azurerm_static_web_app.nextjs.api_key
+  description = "Static Web App API Key for deployment"
+  value       = module.static_web_app.api_key
   sensitive   = true
+}
+
+output "resource_group_name" {
+  description = "Resource Group Name"
+  value       = azurerm_resource_group.resource_group.name
+}
+
+output "mysql_server_name" {
+  description = "MySQL Server Name"
+  value       = azurerm_mysql_flexible_server.mysql_db_server.name
 }

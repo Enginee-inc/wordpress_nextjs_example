@@ -8,8 +8,19 @@ dist
 .env.production.local
 .env
 
+# Terraform
 terraform.tfstate
-terraform.tfstate.backup
+terraform.tfstate*.backup
 .terraform
 .terraform.lock.hcl
 *.tfvars
+!dev.tfvars
+*.tfplan
+*.tfvars.json
+*.tfvars
+.terraformrc
+terraform.rc
+crash.log
+crash.*.log
+
+out/

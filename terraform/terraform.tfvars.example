@@ -1,7 +1,0 @@
-resource_group_name = "rg-wordpress-nextjs-example"
-location = "East US"
-prefix = "wp-nextjs-demo"
-mysql_admin_username = "wpadmin"
-mysql_admin_password = "YourSecurePassword123!"
-wordpress_db_name = "wordpress"
-github_repo_url = "https://github.com/yourusername/yourrepo"
