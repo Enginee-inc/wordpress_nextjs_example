@@ -9,7 +9,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const posts = await getPosts()
+  const posts = await getPosts() //await getPosts()
   
   // If no posts are fetched (e.g., API is unavailable), return at least one path
   // to satisfy Next.js static export requirements
