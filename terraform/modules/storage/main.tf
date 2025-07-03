@@ -25,6 +25,11 @@ resource "azurerm_storage_account" "storage_account" {
     default_action          = "Allow"
     bypass                  = ["AzureServices"]
   }
+
+  lifecycle {
+    // https://stackoverflow.com/questions/77155246/update-in-place-runs-indefinitely-in-terraform
+    ignore_changes = [ network_rules ] 
+  }
 }
 
 #Create the storage account BLOB container
