@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { PageWithSlugAndTitle } from "../lib/types";
 import { BlogInfo } from "../lib/types";
-const wordpressUrl = process.env.WORDPRESS_URL;
 
 export const NavBar = ({
   pages,
