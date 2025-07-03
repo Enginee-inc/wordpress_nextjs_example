@@ -4,11 +4,15 @@ import { Page as TPage } from "../../lib/types";
 
 const wordpressUrl = process.env.WORDPRESS_URL;
 
+const wpUser = process.env.WORDPRESS_USER
+const wpAppPassword = process.env.WORDPRESS_APP_PASSWORD;
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const response = await fetch(`${wordpressUrl}/wp-json/wp/v2/pages/${context.query.id}?_embed&status=draft`,
     {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Basic ${Buffer.from(`${wpUser}:${wpAppPassword}`).toString('base64')}`
       }
     }
   );
