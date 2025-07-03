@@ -326,3 +326,14 @@ variable "static_web_app_repository_token" {
   description = "Static Web App Repository Token"
   sensitive   = true
 }
+
+variable "application_insights_connection_string" {
+  description = "Application Insights Connection String"
+  sensitive = true
+  type = string
+}
+
+variable "application_insights_agent_extension_version" {
+  description = "Application Insights Agent Extension Version"
+  type = string
+}

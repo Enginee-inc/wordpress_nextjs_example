@@ -119,9 +119,6 @@ resource "azurerm_linux_web_app" "wordpress_web_app" {
     }
   }
 
-
-
-
   depends_on = [
     azurerm_mysql_flexible_server.mysql_db_server,
     azurerm_mysql_flexible_database.wordpress_mysql_database
@@ -229,8 +226,8 @@ resource "azurerm_mysql_flexible_database" "wordpress_mysql_database" {
   name                = var.mysql_wordpress_database_name
   resource_group_name = azurerm_resource_group.resource_group.name
   server_name         = azurerm_mysql_flexible_server.mysql_db_server.name
-  charset             = "utf8mb3"
-  collation           = "utf8mb3_general_ci"
+  charset             = "utf8mb4"
+  collation           = "utf8mb4_general_ci"
   depends_on = [
     azurerm_mysql_flexible_server.mysql_db_server
   ]
@@ -295,6 +292,9 @@ module "static_web_app" {
   
   app_settings = {
     WORDPRESS_API_URL = "https://${local.web_app_name}.azurewebsites.net"
+    # TODO: use output
+    APPLICATIONINSIGHTS_CONNECTION_STRING = var.application_insights_connection_string
+    ApplicationInsightsAgent_EXTENSION_VERSION = var.application_insights_agent_extension_version
   }
   
   depends_on = [

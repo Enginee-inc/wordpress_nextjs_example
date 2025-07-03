@@ -9,8 +9,8 @@ resource "azurerm_static_web_app" "frontend" {
   repository_url = "${var.repository_url}"
   repository_branch = "${var.repository_branch}"
   repository_token = var.repository_token
-  
 
+  app_settings = var.app_settings
   identity {
     type = "SystemAssigned"
   }
@@ -29,4 +29,14 @@ resource "azurerm_static_web_app_function_app_registration" "frontend_settings" 
   count             = var.enable_function_app ? 1 : 0
   static_web_app_id = azurerm_static_web_app.frontend.id
   function_app_id   = var.function_app_id
+}
+
+resource "azurerm_application_insights" "main" {
+  name                = "${var.static_web_app_name}-ai"
+  location            = azurerm_static_web_app.frontend.location
+  resource_group_name = azurerm_static_web_app.frontend.resource_group_name
+  application_type    = "web"
+
+  tags = var.tags
+  
 }
