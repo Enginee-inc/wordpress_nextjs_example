@@ -2,12 +2,8 @@ import { Page as TPage } from "../../lib/types";
 
 const wordpressUrl = process.env.WORDPRESS_URL;
 
-export const revalidate = 3600; // Revalidate every hour
-
 export async function generateStaticParams() {
-  const response = await fetch(`${wordpressUrl}/wp-json/wp/v2/pages?_fields[]=slug`, {
-    next: { revalidate: 3600 }
-  });
+  const response = await fetch(`${wordpressUrl}/wp-json/wp/v2/pages?_fields[]=slug`);
   const pages : TPage[] = await response.json();
   const paths = pages.map(page => ({
     slug: page.slug 
@@ -17,9 +13,7 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }: { params: { slug: string } }) {  
     // Fetch the blog post data based on the slug (you may use an API or other method)
-    const response = await fetch(`${wordpressUrl}/wp-json/wp/v2/pages/?slug=${params.slug}`, {
-      next: { revalidate: 3600 }
-    });
+    const response = await fetch(`${wordpressUrl}/wp-json/wp/v2/pages/?slug=${params.slug}`);
     const page : TPage = (await response.json())[0];
 
     return (

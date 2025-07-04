@@ -3,12 +3,9 @@ import { Post } from '@/app/lib/types';
 
 const wordpressUrl = process.env.WORDPRESS_URL;
 
-export const revalidate = 3600; // Revalidate every hour
 
 export async function generateStaticParams(){
-  const response = await fetch(`${wordpressUrl}/wp-json/wp/v2/posts?_fields[]=slug`, {
-    next: { revalidate: 3600 }
-  });
+  const response = await fetch(`${wordpressUrl}/wp-json/wp/v2/posts?_fields[]=slug`);
   const posts : Post[] = await response.json();
   const paths = posts.map(post => ({
     slug: post.slug 
