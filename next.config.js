@@ -2,11 +2,20 @@
 const nextConfig = {
   trailingSlash: true,
   images: {
-    domains: [process.env.WORDPRESS_URL?.replace(/^https?:\/\//, '') || 'localhost']
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: `${process.env.WORDPRESS_HOSTNAME}`,
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "secure.gravatar.com",
+        port: "",
+      },
+    ],
   },
-  env: {
-    WORDPRESS_API_URL: process.env.WORDPRESS_API_URL || 'http://localhost/wp-json/wp/v2'
-  }
 }
 
 module.exports = nextConfig
