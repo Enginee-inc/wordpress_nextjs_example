@@ -1,34 +1,55 @@
+'use client';
+
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Page as TPage } from "../lib/types";
 
-const wordpressUrl = process.env.WORDPRESS_URL;
-const wpUser = process.env.WORDPRESS_USER;
-const wpAppPassword = process.env.WORDPRESS_APP_PASSWORD;
+export default function Preview() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+  const [page, setPage] = useState<TPage | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-export default async function Preview({
-  searchParams,
-}: {
-  searchParams: { id?: string };
-}) {
-  if (!searchParams.id) {
-    return <div>No page ID provided</div>;
-  }
-  try {
-    const response = await fetch(
-      `${wordpressUrl}/wp-json/wp/v2/pages/${searchParams.id}?_embed&status=draft`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${Buffer.from(`${wpUser}:${wpAppPassword}`).toString('base64')}`
-        },
-        cache: 'no-store' // Always fetch fresh data for previews
-      }
-    );
-
-    if (!response.ok) {
-      return <div>Failed to load preview</div>;
+  useEffect(() => {
+    if (!id) {
+      setError('No page ID provided');
+      setLoading(false);
+      return;
     }
 
-    const page: TPage = await response.json();
+    const fetchPreview = async () => {
+      try {
+        const response = await fetch(`/api/preview?id=${id}`);
+        
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.error || 'Failed to load preview');
+        }
+
+        const pageData = await response.json();
+        setPage(pageData);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Error loading preview');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPreview();
+  }, [id]);
+
+  if (loading) {
+    return <div className="my-8 max-w-3xl m-auto">Loading preview...</div>;
+  }
+
+  if (error) {
+    return <div className="my-8 max-w-3xl m-auto">Error: {error}</div>;
+  }
+
+  if (!page) {
+    return <div className="my-8 max-w-3xl m-auto">No page data available</div>;
+  }
 
   return (
     <div className="my-8 max-w-3xl m-auto">
@@ -36,9 +57,4 @@ export default async function Preview({
       <div className="prose" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
     </div>
   );
-
- } catch (error) {
-    console.error("Error fetching page preview:", error);
-    return <div>Error loading preview {error}</div>;
-  }
 }
