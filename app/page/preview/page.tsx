@@ -12,23 +12,23 @@ export default async function Preview({
   if (!searchParams.id) {
     return <div>No page ID provided</div>;
   }
+  try {
+    const response = await fetch(
+      `${wordpressUrl}/wp-json/wp/v2/pages/${searchParams.id}?_embed&status=draft`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${Buffer.from(`${wpUser}:${wpAppPassword}`).toString('base64')}`
+        },
+        cache: 'no-store' // Always fetch fresh data for previews
+      }
+    );
 
-  const response = await fetch(
-    `${wordpressUrl}/wp-json/wp/v2/pages/${searchParams.id}?_embed&status=draft`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Basic ${Buffer.from(`${wpUser}:${wpAppPassword}`).toString('base64')}`
-      },
-      cache: 'no-store' // Always fetch fresh data for previews
+    if (!response.ok) {
+      return <div>Failed to load preview</div>;
     }
-  );
 
-  if (!response.ok) {
-    return <div>Failed to load preview</div>;
-  }
-
-  const page: TPage = await response.json();
+    const page: TPage = await response.json();
 
   return (
     <div className="my-8 max-w-3xl m-auto">
@@ -36,4 +36,9 @@ export default async function Preview({
       <div className="prose" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
     </div>
   );
+
+ } catch (error) {
+    console.error("Error fetching page preview:", error);
+    return <div>Error loading preview</div>;
+  }
 }
