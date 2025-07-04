@@ -14,7 +14,11 @@ export async function GET(request: NextRequest) {
   }
 
   if (!wordpressUrl || !wpUser || !wpAppPassword) {
-    return NextResponse.json({ error: 'WordPress configuration missing' }, { status: 500 });
+    
+    if (!wordpressUrl) {
+      console.error("WORDPRESS_URL is not set");
+    }
+    return NextResponse.json({ error: `WordPress configuration missing, ${!!wordpressUrl}, ${!!wpUser}, ${!!wpAppPassword}` }, { status: 500 });
   }
 
   try {
