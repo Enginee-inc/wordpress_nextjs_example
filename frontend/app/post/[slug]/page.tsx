@@ -1,7 +1,7 @@
 import { BlogPost } from '@/app/components/blogpost';
 import { Post } from '@/app/lib/types';
 
-const wordpressUrl = process.env.WORDPRESS_URL;
+const wordpressUrl = process.env.WORDPRESS_API_URL;
 
 export const revalidate = 3600; // Revalidate every hour
 

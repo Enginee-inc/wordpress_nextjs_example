@@ -6,7 +6,7 @@ import { NavBar } from './components/navbar';
 import { BlogInfo, PageWithSlugAndTitle } from './lib/types';
 
 const inter = Inter({ subsets: ['latin'] })
-const wordpressUrl = process.env.WORDPRESS_URL;
+const wordpressUrl = process.env.WORDPRESS_API_URL;
 
 export const metadata: Metadata = {
   title: 'Azure Static Web Apps + WordPress',

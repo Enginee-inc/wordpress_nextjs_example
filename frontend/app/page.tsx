@@ -4,7 +4,7 @@ import Image from 'next/image'
 export const revalidate = 3600; // Revalidate every hour
 
 export default async function Home() {
-  const wordpressUrl = process.env.WORDPRESS_URL;
+  const wordpressUrl = process.env.WORDPRESS_API_URL;
   const response = await fetch(`${wordpressUrl}/wp-json/wp/v2/posts?_embed`, {
     next: { revalidate: 3600 }
   });

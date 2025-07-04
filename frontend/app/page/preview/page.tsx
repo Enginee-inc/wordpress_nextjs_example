@@ -1,6 +1,6 @@
 import { Page as TPage } from "../../lib/types";
 
-const wordpressUrl = process.env.WORDPRESS_URL;
+const wordpressUrl = process.env.WORDPRESS_API_URL;
 const wpUser = process.env.WORDPRESS_USER;
 const wpAppPassword = process.env.WORDPRESS_APP_PASSWORD;
 

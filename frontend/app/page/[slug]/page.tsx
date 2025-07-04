@@ -1,6 +1,6 @@
 import { Page as TPage } from "../../lib/types";
 
-const wordpressUrl = process.env.WORDPRESS_URL;
+const wordpressUrl = process.env.WORDPRESS_API_URL;
 
 export const revalidate = 3600; // Revalidate every hour
 
