@@ -1,7 +1,6 @@
 import { BlogPost } from '@/app/components/blogpost';
 import { Post } from '@/app/lib/types';
 
-const wordpressUrl = process.env.WORDPRESS_URL;
 
 
 export async function generateStaticParams(){
