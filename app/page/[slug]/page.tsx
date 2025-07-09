@@ -1,9 +1,8 @@
 import { Page as TPage } from "../../lib/types";
 
-const wordpressUrl = process.env.WORDPRESS_URL;
 
 export async function generateStaticParams() {
-  const response = await fetch(`${wordpressUrl}/wp-json/wp/v2/pages?_fields[]=slug`);
+  const response = await fetch("/api/wp-json/wp/v2/pages?_fields[]=slug");
   const pages : TPage[] = await response.json();
   const paths = pages.map(page => ({
     slug: page.slug 
