@@ -1,13 +1,9 @@
 import { Page as TPage } from "../../lib/types";
-import { headers } from "next/headers"
 
 export async function generateStaticParams() {
 
-  const headersData = headers();
-  const protocol = headersData.get('x-forwarded-proto') || 'http';
-  const host = headersData.get('host')
 
-  const baseUrl = `${protocol}://${host}`;
+  const baseUrl = "https://thankful-water-09578c61e.1.azurestaticapps.net"
   const response = await fetch(`${baseUrl}/api/wp-json/wp/v2/pages?_fields[]=slug`);
   const pages : TPage[] = await response.json();
   const paths = pages.map(page => ({
@@ -17,11 +13,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {  
-  const headersData = headers();
-  const protocol = headersData.get('x-forwarded-proto') || 'http';
-  const host = headersData.get('host')
-
-  const baseUrl = `${protocol}://${host}`;
+    const baseUrl = "https://thankful-water-09578c61e.1.azurestaticapps.net"
     // Fetch the blog post data based on the slug (you may use an API or other method)
     const response = await fetch(`${baseUrl}/api/wp-json/wp/v2/pages/?slug=${params.slug}`);
     const page : TPage = (await response.json())[0];
