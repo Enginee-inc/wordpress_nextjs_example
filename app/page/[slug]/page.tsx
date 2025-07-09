@@ -13,7 +13,7 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }: { params: { slug: string } }) {  
     // Fetch the blog post data based on the slug (you may use an API or other method)
-    const response = await fetch(`${wordpressUrl}/wp-json/wp/v2/pages/?slug=${params.slug}`);
+    const response = await fetch("/api/wp-json/wp/v2/pages/?slug=${params.slug}");
     const page : TPage = (await response.json())[0];
 
     return (
