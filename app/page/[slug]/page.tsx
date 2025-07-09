@@ -3,8 +3,8 @@ import { Page as TPage } from "../../lib/types";
 export async function generateStaticParams() {
 
 
-  const baseUrl = "https://thankful-water-09578c61e.1.azurestaticapps.net"
-  const response = await fetch(`${baseUrl}/api/wp-json/wp/v2/pages?_fields[]=slug`);
+  const baseUrl = "https://wp-app-web-62319.azurewebsites.net"
+  const response = await fetch(`${baseUrl}/wp-json/wp/v2/pages?_fields[]=slug`);
   const pages : TPage[] = await response.json();
   const paths = pages.map(page => ({
     slug: page.slug 
